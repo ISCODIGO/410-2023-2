@@ -20,17 +20,16 @@ conn.commit()
 cur.execute("UPDATE Canciones SET reproducciones = ? WHERE titulo = ?", (50, "Prueba"))
 conn.commit()
 
-
-print("Delete...")
-#cur.execute('DELETE FROM Canciones WHERE reproducciones < 100')
-#conn.commit()
-
-
 # read
 print('Canciones:')
 cur.execute('SELECT titulo, reproducciones FROM Canciones')
 for fila in cur:
     print(fila)
 
+
+# delete
+print("Delete...")
+cur.execute('DELETE FROM Canciones WHERE reproducciones < 100')
+conn.commit()
 
 cur.close()
