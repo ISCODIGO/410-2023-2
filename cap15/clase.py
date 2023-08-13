@@ -19,11 +19,10 @@ class ManejadorBaseDatos:
     def create(self, datos: dict):
         cursor = self.connector.cursor()
         campos = ", ".join(list(datos.keys()))
-        
+        comodines = ['?'] * len(datos)  # hace una lista de ? segun la cantidad de campos
         valores = tuple(datos.values())
-        comando = f"INSERT INTO {self.table} ({campos}) VALUES()"
-        print(comando, valores)
-        cursor.execute(comando)
+        comando = f"INSERT INTO {self.table} ({campos}) VALUES({','.join(comodines)})"
+        cursor.execute(comando, valores)
         self.connector.commit()
         cursor.close()
 
@@ -41,17 +40,17 @@ class ManejadorBaseDatos:
         cursor.close()
         return data
 
-    def update(self, datos: dict):
+    def update(self, id: int, datos: dict):
         cursor = self.connector.cursor()
 
         valores = []
         for clave in datos.keys():
             valores.append(f"{clave}=?")
 
-        cursor.execute(
-            f"UPDATE {self.table} SET {', '.join(valores)} WHERE id = ?",
-            tuple(datos.values()),
-        )
+        comando = f"UPDATE {self.table} SET {', '.join(valores)} WHERE id = ?"
+        argumentos = list(datos.values())
+        argumentos.append(id)
+        cursor.execute(comando, tuple(argumentos))
         self.connector.commit()
         cursor.close()
 
