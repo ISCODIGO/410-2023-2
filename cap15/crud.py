@@ -14,6 +14,8 @@ cur.execute('INSERT INTO Canciones (titulo, reproducciones) VALUES (?, ?)',
 ('Thunderstruck', 20))
 cur.execute('INSERT INTO Canciones (titulo, reproducciones) VALUES (?, ?)',
 ('My Way', 15))
+cur.execute('INSERT INTO Canciones (titulo) VALUES (?)',
+('Prueba', ))
 conn.commit()
 
 # update

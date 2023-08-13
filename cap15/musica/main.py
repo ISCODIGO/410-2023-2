@@ -1,11 +1,11 @@
 import sqlite3
-from clase import ManejadorBaseDatos
+from database import Database
 
 BASE_DATOS = "musica.db"
 TABLA = "canciones"
 
 
-def crear_cancion(manejador: ManejadorBaseDatos):
+def crear_cancion(manejador: Database):
     titulo = input("Escriba el titulo de la cancion: ")
     autor = input("Escriba el autor de la cancion: ")
 
@@ -16,7 +16,7 @@ def crear_cancion(manejador: ManejadorBaseDatos):
 
     manejador.create(data)
 
-def actualizar_reproducciones(manejador: ManejadorBaseDatos):
+def actualizar_reproducciones(manejador: Database):
     id = int(input("Indique el ID de la cancion a EDITAR: "))
     cancion = manejador.read_one(id)
     reproduciones = int(cancion[3])
@@ -25,7 +25,7 @@ def actualizar_reproducciones(manejador: ManejadorBaseDatos):
     })
 
 
-def eliminar_cancion(manejador: ManejadorBaseDatos):
+def eliminar_cancion(manejador: Database):
     id = int(input("Indique el ID de la cancion a ELIMINAR: "))
     manejador.delete(id)
 
@@ -41,11 +41,11 @@ def main():
         print('Para salir presiona cualquier otra opcion')
         opcion = input("Seleccione la opcion: ")
 
-        db = ManejadorBaseDatos(BASE_DATOS, TABLA)
+        db = Database(BASE_DATOS, TABLA)
 
         match opcion:
             case "1":
-                db.construir_tabla([
+                db.create_table([
                     "id INTEGER PRIMARY KEY AUTOINCREMENT",
                     "titulo TEXT NOT NULL",
                     "autor TEXT NOT NULL",
