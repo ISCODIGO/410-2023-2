@@ -31,7 +31,7 @@ for fila in cur:
 
 # delete
 print("Delete...")
-cur.execute('DELETE FROM Canciones WHERE reproducciones < 100')
+cur.execute('DELETE FROM Canciones WHERE reproducciones = 0')
 conn.commit()
 
 cur.close()
