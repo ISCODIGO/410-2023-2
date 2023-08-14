@@ -2,7 +2,6 @@ import sqlite3
 
 
 class Database:
-
     def __init__(self, archivo: str, tabla: str):
         self.archivo = archivo
         self.table = tabla
@@ -20,7 +19,9 @@ class Database:
         with sqlite3.connect(self.archivo) as conn:
             cursor = conn.cursor()
             fields = ", ".join(list(datos.keys()))
-            comodines = ['?'] * len(datos)  # hace una lista de ? segun la cantidad de campos
+            comodines = ["?"] * len(
+                datos
+            )  # hace una lista de ? segun la cantidad de campos
             params = tuple(datos.values())
             sql = f"INSERT INTO {self.table} ({fields}) VALUES({','.join(comodines)})"
             cursor.execute(sql, params)
@@ -62,3 +63,9 @@ class Database:
             cursor = conn.cursor()
             cursor.execute(f"DELETE FROM {self.table} WHERE id = ?", (id,))
             conn.commit()
+
+    def get_column_names(self) -> list:
+        with sqlite3.connect(self.archivo) as conn:
+            cursor = conn.cursor()
+            cursor.execute(f"select * from {self.table}")
+            return [item[0] for item in cursor.description]
